@@ -4,5 +4,12 @@ type Query {
 
 type User {
   id: ID!
-  fav: String!
+  status: String!
+  todos: [Todo]
+}
+
+type Todo {
+  id: ID!
+  title: String!
+  isCompleted: Boolean!
 }

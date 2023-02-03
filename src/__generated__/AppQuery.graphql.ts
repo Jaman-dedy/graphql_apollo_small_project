@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<38977a5162c5a872f0f1d098557613c6>>
+ * @generated SignedSource<<92fe1414fdff93b549e34f81e4b86861>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,13 +9,15 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type AppQuery$variables = {
-  id: string;
+  id?: string | null;
 };
 export type AppQuery$data = {
   readonly user: {
-    readonly fav: string;
     readonly id: string;
+    readonly status: string;
+    readonly " $fragmentSpreads": FragmentRefs<"Todos_user">;
   } | null;
 };
 export type AppQuery = {
@@ -33,44 +35,51 @@ var v0 = [
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "id",
-        "variableName": "id"
-      }
-    ],
-    "concreteType": "User",
-    "kind": "LinkedField",
-    "name": "user",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "fav",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "id",
+    "variableName": "id"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "status",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "AppQuery",
-    "selections": (v1/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "User",
+        "kind": "LinkedField",
+        "name": "user",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "Todos_user"
+          }
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Query",
     "abstractKey": null
   },
@@ -79,19 +88,59 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "AppQuery",
-    "selections": (v1/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "User",
+        "kind": "LinkedField",
+        "name": "user",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Todo",
+            "kind": "LinkedField",
+            "name": "todos",
+            "plural": true,
+            "selections": [
+              (v2/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "title",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "isCompleted",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "10a6e1ac997d8ece426a80f9d63083f8",
+    "cacheID": "b956a9324838ebddb0e887ffd26e2acb",
     "id": null,
     "metadata": {},
     "name": "AppQuery",
     "operationKind": "query",
-    "text": "query AppQuery(\n  $id: String!\n) {\n  user(id: $id) {\n    id\n    fav\n  }\n}\n"
+    "text": "query AppQuery(\n  $id: String\n) {\n  user(id: $id) {\n    id\n    status\n    ...Todos_user\n  }\n}\n\nfragment Todo_todo on Todo {\n  id\n  title\n  isCompleted\n}\n\nfragment Todos_user on User {\n  todos {\n    ...Todo_todo\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5158b6df2d45efcd2cad120e28d72433";
+(node as any).hash = "c97f351e98eb6beb706ef0fe3e901660";
 
 export default node;

@@ -1,19 +1,4 @@
-import { GraphQLString } from "graphql";
-// @flow
-/* eslint flowtype/require-return-type: 'off' */
-/**
- * This file provided by Facebook is for non-commercial testing and evaluation
- * purposes only.  Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-import { GraphQLNonNull, GraphQLObjectType, GraphQLID } from "graphql";
+import { GraphQLNonNull, GraphQLObjectType, GraphQLID, GraphQLString, GraphQLList, GraphQLBoolean  } from "graphql";
 
 // mock users
 const users = [
@@ -36,6 +21,42 @@ export const fetchUser = (id: string): Promise<any> => {
   });
 };
 
+const todos = [
+  {
+    id: 'todo1',
+    title: 'I am completed',
+    isCompleted: true
+  },
+  {
+    id: 'todo2',
+    title: ' I am still waiting',
+    isCompleted: false
+  },
+  {
+    id: 'todo3',
+    title: ' I am still in process',
+    isCompleted: false
+  }
+]
+
+export const GraphQLTODO = new GraphQLObjectType({
+  name: "Todo",
+  fields: {
+    id: {
+      type: new GraphQLNonNull(GraphQLID),
+      resolve: (_): string => _.id,
+    },
+    title: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (_): string => _.title,
+    },
+    isCompleted: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+      resolve: (_) => _.isCompleted,
+    }
+  },
+});
+
 export const GraphQLUser = new GraphQLObjectType({
   name: "User",
   fields: {
@@ -43,9 +64,13 @@ export const GraphQLUser = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLID),
       resolve: (_): string => _.id,
     },
-    fav: {
+    status: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: (_): string => _.fav,
     },
+    todos: {
+      type: new GraphQLList(GraphQLTODO),
+      resolve: () => todos
+    }
   },
 });
